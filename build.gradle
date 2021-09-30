@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+    id 'com.bmuschko.tomcat' version "2.7.0"
 }
 
 group = 'com.example'
@@ -17,8 +18,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	def tomcatVersion = '8.5.16'
+	tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+			"org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 }
 
 test {
 	useJUnitPlatform()
+}
+
+tomcat {
+	httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+	ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+	httpPort = 9070
 }
